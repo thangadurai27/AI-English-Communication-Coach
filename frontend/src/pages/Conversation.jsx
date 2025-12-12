@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 import { MessageCircle, Send, Phone } from 'lucide-react';
 import PageLayout from '../components/ui/PageLayout';
 
@@ -45,7 +46,7 @@ function Conversation() {
 
       console.log('💬 Starting conversation:', scenario);
       const { data } = await axios.post(
-        'http://localhost:5000/api/conversation/start',
+        API_ENDPOINTS.START_CONVERSATION,
         { scenario },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -74,7 +75,7 @@ function Conversation() {
       const token = localStorage.getItem('token');
       console.log('💬 Sending message...');
       const { data } = await axios.post(
-        'http://localhost:5000/api/conversation/message',
+        API_ENDPOINTS.SEND_MESSAGE,
         { message: userMessage },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -99,7 +100,7 @@ function Conversation() {
     try {
       const token = localStorage.getItem('token');
       const { data } = await axios.post(
-        'http://localhost:5000/api/conversation/end',
+        API_ENDPOINTS.END_CONVERSATION,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );

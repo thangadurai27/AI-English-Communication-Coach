@@ -1,6 +1,7 @@
 ﻿import { useState, useEffect } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 import Card from './ui/Card';
 import Button from './ui/Button';
 import ScoreBadge from './ui/ScoreBadge';
@@ -85,7 +86,7 @@ const Recorder = () => {
       };
 
       const { data } = await axios.post(
-        'http://localhost:5000/api/ai/analyze',
+        API_ENDPOINTS.ANALYZE,
         { text: transcript },
         config
       );

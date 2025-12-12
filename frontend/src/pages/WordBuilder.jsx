@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import API_BASE_URL, { API_ENDPOINTS } from '../config/api';
 import { Shuffle, Award, ArrowLeft } from 'lucide-react';
 import PageLayout from '../components/ui/PageLayout';
 
@@ -29,7 +30,7 @@ function WordBuilder() {
   const fetchWord = async () => {
     try {
       const token = localStorage.getItem('token');
-      const { data } = await axios.get(`http://localhost:5000/api/lessons/wordbuilder/word?type=${gameType}&round=${round}`, {
+      const { data } = await axios.get(`${API_ENDPOINTS.WORDBUILDER_WORD}?type=${gameType}&round=${round}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setWordData(data);
@@ -73,7 +74,7 @@ function WordBuilder() {
       const sentence = selectedWords.join(' ');
 
       const { data } = await axios.post(
-        'http://localhost:5000/api/lessons/wordbuilder/evaluate',
+        API_ENDPOINTS.WORDBUILDER_EVALUATE,
         { userSentence: sentence, correctSentence: wordData.sentence },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -106,7 +107,7 @@ function WordBuilder() {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        'http://localhost:5000/api/ai/analyze',
+        API_ENDPOINTS.ANALYZE,
         { text: `Word Builder Game - Score: ${score}` },
         { headers: { Authorization: `Bearer ${token}` } }
       );

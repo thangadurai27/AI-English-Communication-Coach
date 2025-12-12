@@ -2,6 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 import PageLayout from '../components/ui/PageLayout';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
@@ -40,7 +41,7 @@ function Lessons() {
 
       console.log('ðŸ“š Requesting lesson for:', selectedTopic);
       const { data } = await axios.post(
-        'http://localhost:5000/api/lessons/generate',
+        API_ENDPOINTS.GENERATE_LESSON,
         { topic: selectedTopic },
         { headers: { Authorization: `Bearer ${token}` } }
       );

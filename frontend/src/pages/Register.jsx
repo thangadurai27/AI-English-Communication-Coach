@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 import PageLayout from '../components/ui/PageLayout';
 import Card from '../components/ui/Card';
 import Input from '../components/ui/Input';
@@ -37,7 +38,7 @@ const Register = () => {
       };
 
       const { data } = await axios.post(
-        'http://localhost:5000/api/auth/register',
+        API_ENDPOINTS.REGISTER,
         { name, email, password },
         config
       );

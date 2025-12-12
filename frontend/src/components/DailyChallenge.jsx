@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 import { Trophy, Calendar } from 'lucide-react';
 
 function DailyChallenge() {
@@ -21,7 +22,7 @@ function DailyChallenge() {
         return;
       }
 
-      const { data } = await axios.get('http://localhost:5000/api/challenge/daily', {
+      const { data } = await axios.get(API_ENDPOINTS.DAILY_CHALLENGE, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -41,7 +42,7 @@ function DailyChallenge() {
     try {
       const token = localStorage.getItem('token');
       const { data } = await axios.post(
-        'http://localhost:5000/api/challenge/complete',
+        API_ENDPOINTS.COMPLETE_CHALLENGE,
         { challengeId: challenge._id, response },
         { headers: { Authorization: `Bearer ${token}` } }
       );

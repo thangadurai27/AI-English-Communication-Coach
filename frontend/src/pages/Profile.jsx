@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 import { User, Award, Trophy, Globe } from 'lucide-react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -36,8 +37,8 @@ function Profile() {
       const config = { headers: { Authorization: `Bearer ${token}` } };
       
       const [userRes, progressRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/auth/me', config),
-        axios.get('http://localhost:5000/api/progress/dashboard', config),
+        axios.get(API_ENDPOINTS.ME, config),
+        axios.get(API_ENDPOINTS.DASHBOARD, config),
       ]);
 
       setUser(userRes.data);
@@ -59,7 +60,7 @@ function Profile() {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        'http://localhost:5000/api/auth/update',
+        API_ENDPOINTS.UPDATE,
         { language: langCode },
         { headers: { Authorization: `Bearer ${token}` } }
       );

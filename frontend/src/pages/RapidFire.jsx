@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import API_BASE_URL, { API_ENDPOINTS } from '../config/api';
 import { Timer, Award, ArrowLeft } from 'lucide-react';
 import PageLayout from '../components/ui/PageLayout';
 
@@ -44,7 +45,7 @@ function RapidFire() {
       }
 
       console.log(`⚡ Fetching ${gameType} question (avoiding ${askedQuestions.length} previous)...`);
-      const { data } = await axios.get(`http://localhost:5000/api/lessons/rapidfire?type=${gameType}&round=${round}&exclude=${askedQuestions.join(',')}`, {
+      const { data } = await axios.get(`${API_ENDPOINTS.RAPIDFIRE}?type=${gameType}&round=${round}&exclude=${askedQuestions.join(',')}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log('✅ Question received:', data);
@@ -110,7 +111,7 @@ function RapidFire() {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        'http://localhost:5000/api/ai/analyze',
+        API_ENDPOINTS.ANALYZE,
         { text: `Rapid Fire Game - Score: ${score}` },
         { headers: { Authorization: `Bearer ${token}` } }
       );

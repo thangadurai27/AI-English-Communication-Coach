@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_ENDPOINTS } from '../config/api';
 import { useTranslation } from 'react-i18next';
 import { LineChart, Line, BarChart, Bar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Trophy, TrendingUp, BookOpen, Award, Target } from 'lucide-react';
@@ -26,9 +27,9 @@ function Dashboard() {
         const config = { headers: { Authorization: `Bearer ${token}` } };
 
         const [dashRes, weeklyRes, skillsRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/progress/dashboard', config),
-          axios.get('http://localhost:5000/api/progress/weekly', config),
-          axios.get('http://localhost:5000/api/progress/skills', config),
+          axios.get(API_ENDPOINTS.DASHBOARD, config),
+          axios.get(API_ENDPOINTS.WEEKLY, config),
+          axios.get(API_ENDPOINTS.SKILLS, config),
         ]);
 
         setDashboardData(dashRes.data);
