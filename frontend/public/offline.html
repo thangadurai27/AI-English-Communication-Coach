@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Offline - AI English Coach</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: white;
+    }
+
+    .container {
+      text-align: center;
+      max-width: 500px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .icon {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 30px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 30px;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 15px 40px;
+      background: white;
+      color: #667eea;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: none;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .status {
+      margin-top: 30px;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .status.online {
+      background: rgba(16, 185, 129, 0.2);
+    }
+
+    .status.offline {
+      background: rgba(239, 68, 68, 0.2);
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      p {
+        font-size: 16px;
+      }
+
+      .icon {
+        width: 100px;
+        height: 100px;
+        font-size: 50px;
+      }
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-left: 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">📡</div>
+    <h1>You're Offline</h1>
+    <p>It looks like you've lost your internet connection. Don't worry - some features may still work!</p>
+    
+    <button class="btn" onclick="checkConnection()">
+      Check Connection
+      <span class="spinner" id="spinner" style="display: none;"></span>
+    </button>
+    <button class="btn" onclick="goHome()">Go Home</button>
+    
+    <div class="status offline" id="status">
+      <strong>Status:</strong> Offline
+    </div>
+  </div>
+
+  <script>
+    function checkConnection() {
+      const spinner = document.getElementById('spinner');
+      const status = document.getElementById('status');
+      
+      spinner.style.display = 'inline-block';
+      status.textContent = 'Checking connection...';
+      
+      // Try to fetch a small resource
+      fetch('/manifest.json', { 
+        method: 'HEAD',
+        cache: 'no-store'
+      })
+        .then(response => {
+          if (response.ok) {
+            status.className = 'status online';
+            status.innerHTML = '<strong>Status:</strong> Back Online! 🎉';
+            spinner.style.display = 'none';
+            
+            // Redirect to home after 1 second
+            setTimeout(() => {
+              window.location.href = '/';
+            }, 1000);
+          } else {
+            throw new Error('Still offline');
+          }
+        })
+        .catch(() => {
+          status.className = 'status offline';
+          status.innerHTML = '<strong>Status:</strong> Still Offline 😔';
+          spinner.style.display = 'none';
+        });
+    }
+
+    function goHome() {
+      window.location.href = '/';
+    }
+
+    // Auto-check connection every 5 seconds
+    setInterval(() => {
+      if (navigator.onLine) {
+        checkConnection();
+      }
+    }, 5000);
+
+    // Listen for online event
+    window.addEventListener('online', () => {
+      const status = document.getElementById('status');
+      status.className = 'status online';
+      status.innerHTML = '<strong>Status:</strong> Back Online! Redirecting...';
+      
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

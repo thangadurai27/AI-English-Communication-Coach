@@ -1,0 +1,72 @@
+{
+  "name": "AI English Communication Coach",
+  "short_name": "AI Coach",
+  "description": "Learn English with AI-powered coaching and practice",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "any",
+  "dir": "ltr",
+  "lang": "en-US",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["education", "productivity", "lifestyle"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Start Practice",
+      "url": "/practice",
+      "description": "Start a new practice session",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "View Dashboard",
+      "url": "/dashboard",
+      "description": "View your progress dashboard",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Play Games",
+      "url": "/games",
+      "description": "Practice with interactive games",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "AI Lessons",
+      "url": "/lessons",
+      "description": "Get personalized AI lessons",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "share_target": {
+    "action": "/practice",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text"
+    }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+aienglish",
+      "url": "/?action=%s"
+    }
+  ]
+}
